@@ -18,3 +18,31 @@ print df.head()
 print "Column means:" 
 print df.mean()
 
+# REST API
+
+cg = CoinGeckoAPI()
+bc_data = cg.get_coin_market_chart_by_id(id='bitcoin', vs_currency='usd', days=30)
+
+# get info on API object
+print "Data of type: ", type(bc_data)
+for key in bc_data:
+	print key
+
+price_data = bc_data['prices']
+print "Price data of type: ", type(price_data)
+print "First five elements of price data: ", price_data[0:5]
+
+# store in dataframe
+prices = pd.DataFrame(price_data, columns=['Timestamp', 'Price'])
+
+# convert time using datetime module
+prices['date'] = prices['Timestamp'].apply(lambda d: datetime.date.fromtimestamp(d/1000.0))
+
+# make candlestick plot, grouping by date
+candlestick_data = prices.groupby(prices.date, as_index=False).agg({'Price': ['min', 'max', 'first', 'last']})
+fig = go.Figure(data=[go.Candlestick(x=candlestick_data['date'],open=candlestick_data['Price']['first'],high=candlestick_data['Price']['max'], low=candlestick_data['Price']['min'],close=candlestick_data['Price']['last'])])
+
+fig.update_layout(xaxis_rangeslider_visible=False)
+fig.show()
+
+
