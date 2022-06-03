@@ -37,5 +37,9 @@ asian_tree.fit(ingredients, cuisines)
 
 print "Saved decision tree model"
 
+# visualize decision tree
+plt.figure(figsize=(40,20))
+tree.plot_tree(asian_tree, feature_names=list(ingredients.columns.values), class_names=np.unique(cuisines), filled=True, nodeids=True, impurity=False, fontsize=20, rounded=True)
+plt.show()
 
 
