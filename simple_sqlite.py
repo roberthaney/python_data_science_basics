@@ -1,4 +1,5 @@
 import sqlite3
+import pandas as pd
 
 conn = sqlite3.connect('SAMPLES.db')
 
@@ -47,8 +48,12 @@ print "\nAbbreviations:"
 for line in col_output:
 	print line
 
-# select first three rows
+# read data in pandas dataframe
+sample_df = pd.read_sql_query("SELECT * FROM SAMPLES;", conn)
 
+print "\nFull Table as dataframe:"
+print sample_df
+print "Dataframe dimensions", sample_df.shape
 
 
 # close connection
