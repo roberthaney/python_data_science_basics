@@ -27,10 +27,28 @@ cursor_obj.execute('''INSERT INTO SAMPLES VALUES (5, 'Latrodectus', 'variolus', 
 statement = ('''SELECT * FROM SAMPLES;''')
 cursor_obj.execute(statement)
 
-print "Full Table:"
+print "\nFull Table:"
 full_output = cursor_obj.fetchall()
 for line in full_output:
 	print line
+
+# select and print first three rows
+cursor_obj.execute(statement)
+print "\nPartial Table:"
+part_output = cursor_obj.fetchmany(3)
+for line in part_output:
+	print line
+
+# select and print abbreviations
+statement = ('''SELECT ABBREVIATION FROM SAMPLES;''')
+col_output = cursor_obj.execute(statement)
+
+print "\nAbbreviations:"
+for line in col_output:
+	print line
+
+# select first three rows
+
 
 
 # close connection
